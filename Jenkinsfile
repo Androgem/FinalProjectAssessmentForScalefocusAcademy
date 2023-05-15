@@ -2,6 +2,15 @@ pipeline {
     agent any
 
     stages {
+        stage('Check Helm and Kubectl') {
+            steps {
+                script {
+                    sh 'helm version'
+                    sh 'kubectl version'
+                }
+            }
+        }
+        
         stage('Git Clone') {
             steps {
                 git 'https://github.com/Androgem/FinalProjectAssessmentForScalefocusAcademy.git'
