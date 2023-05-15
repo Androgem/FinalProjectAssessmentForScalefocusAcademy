@@ -17,14 +17,15 @@ pipeline {
                 }
             }
         }
-        stage('Deploy')
-        steps {
-            script {
-                // Check if WordPress is already installed
-                def release = sh(script: "helm list -n wp -f final-project-wp-scalefocus --output json | jq -r '.[0].name'", returnStdout: true).trim()
-                // If WordPress is not installed, install it
-                if(release == "null") {
-                    sh "helm install final-project-wp-scalefocus ./charts/bitnami/wordpress -n wp"
+        stage('Deploy') {
+            steps {
+                script {
+                    // Check if WordPress is already installed
+                    def release = sh(script: "helm dependency build ./wordpress", returnStatus: true) ? 'true' : ''
+                    // If WordPress is not installed, install it
+                    if (release.isEmpty()) {
+                        sh "helm upgrade --install final-project-wp-scalefocus ./wordpress -n wp"
+                    }
                 }
             }
         }
