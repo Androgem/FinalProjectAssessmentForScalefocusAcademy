@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // Check if namespace 'wp' exists
-                    def namespace = sh(script: "kubectl get namespaces wp", returnStatus: true) ? 'wp' : ''
+                    def namespace = sh(script: "kubectl get namespace wp", returnStatus: true) ? 'wp' : ''
                     // If 'wp' namespace doesn't exist, create it
                     if (namespace.isEmpty()) {
                         sh "kubectl create namespace wp"
