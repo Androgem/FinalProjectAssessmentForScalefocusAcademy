@@ -1,33 +1,30 @@
 pipeline {
     agent any
 
-    environment {
-        KUBECONFIG = '/home/andrej/.kube/config'
-    }
     stages {
-        stage('Check Namespace') {
+        stage('Deploy WordPress') {
             steps {
                 script {
-                    // Check if namespace 'wp' exists
-                    def namespace = sh(script: "kubectl get namespace wp", returnStatus: true) ? 'wp' : ''
-                    // If 'wp' namespace doesn't exist, create it
-                    if (namespace.isEmpty()) {
-                        sh "kubectl create namespace wp"
+                    def namespace = 'wp'
+                    def helmReleaseName = 'final-project-wp-scalefocus'
+                    def chartLocation = '.' // location of the chart relative to the Jenkins workspace
+
+                    // Check if namespace exists
+                    sh(script: "kubectl get namespace ${namespace}", returnStatus: true)
+                    if (result != 0) {
+                        // Namespace doesn't exist, create it
+                        sh "kubectl create namespace ${namespace}"
                     }
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                script {
-                    // Check if WordPress is already installed
-                    def release = sh(script: "helm dependency build ./wordpress", returnStatus: true) ? 'true' : ''
-                    // If WordPress is not installed, install it
-                    if (release.isEmpty()) {
-                        sh "helm upgrade --install final-project-wp-scalefocus ./wordpress -n wp"
+
+                    // Check if WordPress exists
+                    sh(script: "helm list -n ${namespace} | grep ${helmReleaseName}", returnStatus: true)
+                    if (result != 0) {
+                        // WordPress doesn't exist, install the chart
+                        sh "helm upgrade --install ${helmReleaseName} ${chartLocation} -n ${namespace} --values ./values.yaml"
                     }
                 }
             }
         }
     }
 }
+
