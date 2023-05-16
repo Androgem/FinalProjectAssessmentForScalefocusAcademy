@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Git Clone') {
             steps {
-                git 'https://github.com/Androgem/FinalProjectAssessmentForScalefocusAcademy'
+                git 'https://github.com/Androgem/FinalProjectAssessmentForScalefocusAcademy.git'
             }
         }
 
@@ -13,7 +13,7 @@ pipeline {
                 script {
                     def namespace = 'wp'
                     def helmReleaseName = 'final-project-wp-scalefocus'
-                    def chartLocation = 'bitnami/wordpress' // location of the chart relative to the Jenkins workspace
+                    def chartLocation = 'wordpress' // location of the chart relative to the Jenkins workspace
 
                     // Check if namespace exists
                     def result = sh(script: "kubectl get namespace ${namespace}", returnStatus: true)
