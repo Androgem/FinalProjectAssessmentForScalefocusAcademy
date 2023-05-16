@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     stages {
-         
         stage('Deploy WordPress') {
             steps {
                 script {
@@ -20,7 +19,10 @@ pipeline {
                     // Check if WordPress exists
                     result = sh(script: "/usr/local/bin/helm list -n ${namespace} | grep ${helmReleaseName}", returnStatus: true)
                     if (result != 0) {
-                        // WordPress doesn't exist, install the chart
+                        // WordPress doesn't exist, perform helm dependency update
+                        sh "/usr/local/bin/helm dependency update ${chartLocation}"
+
+                        // Install the chart
                         sh "/usr/local/bin/helm upgrade --install ${helmReleaseName} ${chartLocation} -n ${namespace} --values ${chartLocation}/values.yaml"
                     }
                 }
