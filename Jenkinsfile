@@ -1,33 +1,31 @@
 pipeline {
     agent any
 
+    environment {
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
+    }
+
     stages {
-        stage('Git Clone') {
+        stage('Namespace') {
             steps {
-                git 'https://github.com/Androgem/FinalProjectAssessmentForScalefocusAcademy.git'
+                script {
+                    def namespaceExists = sh(script: 'kubectl get namespace wp', returnStatus: true) == 0
+                    if (namespaceExists) {
+                        echo 'Namespace wp exists'
+                        return
+                    } else {
+                        echo 'Creating wp namespace'
+                        sh 'kubectl create namespace wp'
+                    }
+                }
             }
         }
 
-        stage('Deploy WordPress') {
+        stage('Helm') {
             steps {
                 script {
-                    def namespace = 'wp'
-                    def helmReleaseName = 'final-project-wp-scalefocus'
-                    def chartLocation = 'wordpress' // location of the chart relative to the Jenkins workspace
-
-                    // Check if namespace exists
-                    def result = sh(script: "kubectl get namespace ${namespace}", returnStatus: true)
-                    if (result != 0) {
-                        // Namespace doesn't exist, create it
-                        sh "kubectl create namespace ${namespace}"
-                    }
-
-                    // Check if WordPress exists
-                    result = sh(script: "helm list -n ${namespace} | grep ${helmReleaseName}", returnStatus: true)
-                    if (result != 0) {
-                        // WordPress doesn't exist, install the chart
-                        sh "helm upgrade --install ${helmReleaseName} ${chartLocation} -n ${namespace} --values ${chartLocation}/values.yaml"
-                    }
+                    sh 'helm dependency build ./bitnami/wordpress'
+                    sh 'helm upgrade --install final-project-wp-scalefocus ./bitnami/wordpress -n wp'
                 }
             }
         }
