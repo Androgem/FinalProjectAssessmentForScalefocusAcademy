@@ -3,12 +3,6 @@ pipeline {
 
     stages {
          
-        stage('Git Clone') {
-            steps {
-                git 'https://github.com/Androgem/FinalProjectAssessmentForScalefocusAcademy.git'
-            }
-        }
-
         stage('Deploy WordPress') {
             steps {
                 script {
