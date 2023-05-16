@@ -5,7 +5,7 @@ automation with Jenkins.
 
 
 
-1. Setup the enviroment
+1. Setup the environment
 
 
 - Started with instaling java 11
