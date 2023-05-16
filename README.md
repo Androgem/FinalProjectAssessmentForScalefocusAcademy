@@ -13,7 +13,7 @@ automation with Jenkins.
 ![Alt text](library/java11.png)
 
 
-- Next I'v installed Jenkins 
+- Next I've installed Jenkins 
 
 ![Alt text](library/jenkinsinstall.png)
 
@@ -22,7 +22,7 @@ automation with Jenkins.
 
 ![Alt text](library/jenkinsonLocalHost.png)
 
-- After Jenkins, I'v started MiniKube. 
+- After Jenkins, I've started MiniKube. 
 
 ![Alt text](library/minikubeINit.png)
 
