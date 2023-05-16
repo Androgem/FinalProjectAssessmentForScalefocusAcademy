@@ -5,7 +5,7 @@ automation with Jenkins.
 
 
 
-1. Setup the environment
+1. Setup the environ1ment
 
 
 - Started with instaling java 11
@@ -69,6 +69,7 @@ I used : https://download-directory.github.io
 ![Alt text](library/kubernetesplgns.png)
 
 - Then we need to add kubernetes cloud with these formation :
+
      ![Alt text](c:/Users/Andrej%20Stojanovski/Desktop/FinalProject/kuberneteesCONF1.png)
 
      ![Alt text](library/JenkinsCredent.png)
