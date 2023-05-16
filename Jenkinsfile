@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Git Clone') {
             steps {
-                git 'https://github.com/bitnami/charts.git'
+                git 'https://github.com/Androgem/FinalProjectAssessmentForScalefocusAcademy'
             }
         }
 
