@@ -124,3 +124,17 @@ I used : https://download-directory.github.io
 
  8. Admin Dashboard:
     ![Alt text](library/adminDashboarWordpres.png)
+
+
+ 9. Also we need to mention that for the command `minikube start --driver=docker` you must have installed Docker Desktop and start it before the entering the command.
+ 
+    ![Alt text](library/docker.png)
+
+    With this command we create minikube container.
+
+ 10. I tried to run Jenkins server with Docker and then connect them with Kubernetes, but i was getting erros 
+ 
+    ![Alt text](library/errorrr.png)
+
+    That's why I decided to go on full linux installation 
+                
